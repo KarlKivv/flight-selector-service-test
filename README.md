@@ -40,3 +40,13 @@ Docker compose support
 ## Steps
 
 Used VSCode-s "generate java project" to generate a blank java Spring Boot project template.
+
+## TODO
+
+[] - Logic to assign available planes to flights and track their return times (the same plane is available after Flight.duration \* 2 amount of time later).
+[] - View for all flights for destination.
+[] - View for a selected flight.
+[] - Filtered view for flights based on departure point and destination.
+[] - Logic to create flight data.
+[] - Logic to store created flight data.
+[] - Logic to randomly reserve some seats on a flight.
