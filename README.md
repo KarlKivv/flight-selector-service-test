@@ -8,10 +8,10 @@ This is my solution for the CGI summer internship program. The goal of this proj
 
 ### Communication between front and back:
 
-- JSON:
-    simplest, innate support by spring, requires a separate front-end to display data.
-- server-side HTML template:
-    supported by "thymeleaf" package, no need for a separate front-end. Relies heavily on client identification to show correct page states.
+-   JSON:
+      simplest, innate support by spring, requires a separate front-end to display data.
+-   server-side HTML template:
+      supported by "thymeleaf" package, no need for a separate front-end. Relies heavily on client identification to show correct page states.
 
 ### Flight creation and timeout
 
@@ -35,7 +35,8 @@ Potentially generate a unique uuid link after ticket purchase that can be used t
 
 Spring web
 Spring Boot devTools
-Docker compose support
+Docker compose support - disabled, for now
+spring-boot-starter-actuator
 
 ## Steps
 
@@ -43,9 +44,9 @@ Used VSCode-s "generate java project" to generate a blank java Spring Boot proje
 
 ## TODO
 
-[] - Logic to assign available planes to flights and track their return times (the same plane is available after Flight.duration \* 2 amount of time later).
 [] - View for all flights for destination.
 [] - View for a selected flight.
+[] - Logic to assign available planes to flights and track their return times (the same plane is available after Flight.duration \* 2 amount of time later).
 [] - Filtered view for flights based on departure point and destination.
 [] - Logic to create flight data.
 [] - Logic to store created flight data.

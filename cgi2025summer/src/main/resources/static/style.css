@@ -1,0 +1,32 @@
+body {
+    background-color: grey;
+    font-size: calc(16*1.125px);
+}
+
+p {
+    color: grey;
+}
+
+.outer-container {
+    max-width: 80%;
+    min-width: 20%;
+    margin: auto;
+}
+
+.card {
+    display: flex;
+    column-gap: 5px;
+    background-color: white;
+    border-radius: 25px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.card-timestamp, .card-info{
+    align-self: baseline;
+}
+
+.flight-info {
+    display: flex;
+    flex-grow: 2;
+}
