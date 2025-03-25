@@ -2,10 +2,10 @@ package com.cgi2025summer.model;
 
 public class AirplaneSeat {
     private int row;
-    private SeatColumn column;
+    private SeatColumnEnum column;
     private boolean available;
 
-    public AirplaneSeat(int row, SeatColumn column) {
+    public AirplaneSeat(int row, SeatColumnEnum column) {
         this.row = row;
         this.column = column;
     }
@@ -18,7 +18,7 @@ public class AirplaneSeat {
         return available;
     }
 
-    public SeatColumn getColumn() {
+    public SeatColumnEnum getColumn() {
         return column;
     }
 

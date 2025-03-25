@@ -27,7 +27,7 @@ public class Airplane {
                 column = 0;
                 row++;
             }
-            allSeats.add(new AirplaneSeat(row, SeatColumn.values()[column]));
+            allSeats.add(new AirplaneSeat(row, SeatColumnEnum.values()[column]));
         }
     }
 

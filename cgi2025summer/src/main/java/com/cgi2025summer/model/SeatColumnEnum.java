@@ -1,6 +1,6 @@
 package com.cgi2025summer.model;
 
-public enum SeatColumn {
+public enum SeatColumnEnum {
     A,
     B,
     C,
