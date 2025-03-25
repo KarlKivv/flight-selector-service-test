@@ -13,6 +13,10 @@ This is my solution for the CGI summer internship program. The goal of this proj
 -   server-side HTML template:
       supported by "thymeleaf" package, no need for a separate front-end. Relies heavily on client identification to show correct page states.
 
+Decided to use a java templating engine and use server-side-rendering in stead of creating a separate front-end since this method is simpler.
+
+According to a Spring-Boot patch note, JSP-s are outdated and should be avoided. Will use Thymeleaf templates in stead.
+
 ### Flight creation and timeout
 
 Current idea is to create all flight data during app start and keep it in memory. Creating new flights and removing departed ones are controlled by cron jobs.
@@ -44,10 +48,10 @@ Used VSCode-s "generate java project" to generate a blank java Spring Boot proje
 
 ## TODO
 
-[] - View for all flights for destination.
+[x] - View for all flights for destination.
 [] - View for a selected flight.
-[] - Logic to assign available planes to flights and track their return times (the same plane is available after Flight.duration \* 2 amount of time later).
+[] - Logic to assign available planes to flights and track their return times (the same plane is available after Flight.duration \* 2 amount of time later). - might not be needed
 [] - Filtered view for flights based on departure point and destination.
-[] - Logic to create flight data.
+[x] - Logic to create flight data.
 [] - Logic to store created flight data.
 [] - Logic to randomly reserve some seats on a flight.
