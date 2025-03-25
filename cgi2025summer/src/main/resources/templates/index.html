@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html"%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -10,7 +9,7 @@
 		<title>Index page</title>
 		<link
 			rel="stylesheet"
-			href="./style.css"
+			th:href="@{/style.css}"
 		/>
 	</head>
 	<body>
@@ -27,26 +26,26 @@
 			<hr />
 			<div class="flights-container">
 				<div class="flights-container-date">21/03/2025</div>
-				<% for(int i = 0; i < 5; i++) { %>
-				<jsp:include page="card.jsp">
-					<jsp:param
-						name="destination"
-						value="Tallinn"
-					/>
-					<jsp:param
-						name="flightId"
-						value="TL-001"
-					/>
-					<jsp:param
-						name="company"
-						value="Tallinn"
-					/>
-					<jsp:param
-						name="timestamp"
-						value="<%= LocalDate.now() %>"
-					/>
-				</jsp:include>
-				<% } %>
+				<div
+					class="cards-container"
+					th:each="card : ${flights}"
+				>
+					<div class="card">
+						<p
+							class="card-timestamp"
+							th:text="${card.getDepartureTimeString}"
+						>
+							00:00
+						</p>
+						<div class="card-info">
+							<h3 th:text="${card.end}">destination</h3>
+							<div class="flight-info">
+								<p th:text="${card.id}">flightId</p>
+								<p>company not specified</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

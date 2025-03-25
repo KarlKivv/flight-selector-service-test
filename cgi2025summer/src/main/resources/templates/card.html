@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<div
+		class="card"
+		th:fragment="card"
+	>
+		<time
+			class="card-timestamp"
+			datetime="HH:MM"
+			th:datetime=""
+			>00:00</time
+		>
+		<div class="card-info">
+			<h3><%= destination %></h3>
+			<div class="flight-info">
+				<p><%= flightId %></p>
+				<p><%= company %></p>
+			</div>
+		</div>
+	</div>
+</html>
