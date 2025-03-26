@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Document</title>
+		<script>
+			function openFlightSearch() {
+				"TIRANA,ANDORRA_LA_VELLA,YEREVAN,VIENNA,BAKU,MINSK,BRUSSELS,SARAJEVO,SOFIA,ZAGREB,NICOSIA"
+					// ,TBILISI,ATHENS,BUDAPEST,REYKJAVIK,DUBLIN,ASTANA,PRISTINA,VADUZ,LUXEMBOURG,VALLETTA,CHISINAU,MONACO,PODGORICA,SKOPJE,LISBON,BUCHAREST,SAN_MARINO,BELGRADE,BRATISLAVA,LJUBLJANA,MADRID,BERN,ANKARA,KYIV,VATICAN_CITY"
+					.split(",")
+					.forEach((s, i) =>
+						setTimeout(
+							() =>
+								window.open(
+									`https://www.google.com/search?q=${s}+from+tallinn+flight+duration`,
+									"_blank"
+								),
+							i * 1000
+						)
+					);
+			}
+		</script>
+	</head>
+	<body>
+		<button onclick="openFlightSearch()">Open Flight Search</button>
+	</body>
+</html>
