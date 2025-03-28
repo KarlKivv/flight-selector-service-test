@@ -51,4 +51,13 @@ public enum FlightDestinationsEnum {
     private FlightDestinationsEnum(String locationName, long flightDurationMinutes, String countryISOCode,
             String country) {
     }
+
+    public long getFlightDuration() {
+        return this.flightDuration;
+    }
+
+    @Override
+    public String toString() {
+        return this.locationName;
+    }
 }
