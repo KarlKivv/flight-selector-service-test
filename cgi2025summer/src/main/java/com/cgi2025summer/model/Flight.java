@@ -3,36 +3,33 @@ package com.cgi2025summer.model;
 import java.util.Random;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Flight {
     private String id;
-    private String start;
-    private String end;
+    private String destination;
 
     private long departureHour;
     private long departureMinute;
 
     public Flight() {
         this.id = UUID.randomUUID().toString();
-        this.start = "LOC1";
         Random random = new Random();
-        this.end = FlightDestinationsEnum.values()[Math
+        this.destination = FlightDestinationsEnum.values()[Math
                 .toIntExact(random.nextLong(FlightDestinationsEnum.values().length))]
-                .name();
+                .toString();
 
         this.departureHour = random.nextLong(24);
         this.departureMinute = random.nextLong(60);
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
-    public String getStart() {
-        return start;
-    }
-
-    public String getEnd() {
-        return end;
+    public String getDestination() {
+        return this.destination;
     }
 
     // tried to use Date and Calendar types, but they seem to be depracated since
