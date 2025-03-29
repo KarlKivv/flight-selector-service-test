@@ -93,6 +93,32 @@ public class FlightsService {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    public Flight getFlightById(String id) {
+        for (Flight f : this.getAllFlights()) {
+            if (f.getId().equals(id)) {
+                return f;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Flight> filterFlights(String filter) {
+        Calendar today = Calendar.getInstance();
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+
+        switch (filter) {
+            case "today":
+                return this.getFlightsByDate(today);
+            case "tomorrow":
+                return this.getFlightsByDate(tomorrow);
+            default:
+                ArrayList<Flight> flights = this.getFlightsByDate(today);
+                flights.addAll(this.getFlightsByDate(tomorrow));
+                return flights;
+        }
+    }
+
     // public ArrayList<Flight> filterFlightsByDestination(HashMap<Calendar,
     // ArrayList<Flight>> allFlights,
     // FlightDestinationsEnum destination) {

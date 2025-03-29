@@ -24,42 +24,28 @@ public class IndexController {
     @Autowired
     private FlightsService service;
 
-    @RequestMapping("/")
-    public String index(
-            Model model,
-            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "MM/dd/yyyy") Calendar date,
-            @RequestParam(name = "destination", required = false, defaultValue = "") FlightDestinationsEnum destination) {
-
-        ArrayList<Flight> flights = this.service.getFlightsByDate(Calendar.getInstance());
+    @GetMapping("/")
+    public String index(Model model) {
+        ArrayList<Flight> flights = service.filterFlights("");
         model.addAttribute("flights", flights);
         return "index";
     }
 
-    @GetMapping("/flights/{flightId}")
-    public String getMethodName(@RequestParam String flightId) {
-        return new String();
-    }
-
-    @PostMapping("/filter")
+    @PostMapping("/")
     public String filter(@RequestParam String filter, Model model) {
-        ArrayList<Flight> flights;
-        Calendar today = Calendar.getInstance();
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
-
-        switch (filter) {
-            case "today":
-                flights = service.getFlightsByDate(today);
-                break;
-            case "tomorrow":
-                flights = service.getFlightsByDate(tomorrow);
-                break;
-            default:
-                flights = service.getFlightsByDate(today);
-                flights.addAll(service.getFlightsByDate(tomorrow));
-                break;
-        }
+        ArrayList<Flight> flights = service.filterFlights(filter);
         model.addAttribute("flights", flights);
         return "index";
+    }
+
+    @GetMapping("/flight")
+    public String getMethodName(@RequestParam String id, Model model) {
+        Flight flight = service.getFlightById(id);
+        if (flight == null) {
+            model.addAttribute("id", id);
+            return "flightNotFound";
+        }
+        model.addAttribute("card", flight);
+        return "singleCard";
     }
 }
