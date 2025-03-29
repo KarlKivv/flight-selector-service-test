@@ -45,7 +45,7 @@ public class IndexController {
             model.addAttribute("id", id);
             return "flightNotFound";
         }
-        model.addAttribute("card", flight);
-        return "singleCard";
+        model.addAttribute("flight", flight);
+        return "singleFlight";
     }
 }
