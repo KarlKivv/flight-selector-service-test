@@ -71,7 +71,7 @@ public class FlightsService {
     }
 
     public ArrayList<Flight> getFlightsByDestination(FlightDestinationsEnum destination) {
-        HashMap<Calendar, ArrayList<Flight>> allFlights = storage.getAllFlights();
+        HashMap<String, ArrayList<Flight>> allFlights = storage.getAllFlights();
         if (allFlights == null) {
             return null;
         }
@@ -79,6 +79,17 @@ public class FlightsService {
         return allFlights.values().stream()
                 .flatMap(f -> f.stream())
                 .filter(f -> f.getDestination() == destination.toString())
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<Flight> getAllFlights() {
+        HashMap<String, ArrayList<Flight>> allFlights = storage.getAllFlights();
+        if (allFlights == null) {
+            return null;
+        }
+
+        return allFlights.values().stream()
+                .flatMap(f -> f.stream())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
