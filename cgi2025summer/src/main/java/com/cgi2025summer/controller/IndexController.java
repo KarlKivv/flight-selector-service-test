@@ -15,6 +15,8 @@ import com.cgi2025summer.service.FlightsService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class IndexController {
@@ -38,4 +40,26 @@ public class IndexController {
         return new String();
     }
 
+    @PostMapping("/filter")
+    public String filter(@RequestParam String filter, Model model) {
+        ArrayList<Flight> flights;
+        Calendar today = Calendar.getInstance();
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+
+        switch (filter) {
+            case "today":
+                flights = service.getFlightsByDate(today);
+                break;
+            case "tomorrow":
+                flights = service.getFlightsByDate(tomorrow);
+                break;
+            default:
+                flights = service.getFlightsByDate(today);
+                flights.addAll(service.getFlightsByDate(tomorrow));
+                break;
+        }
+        model.addAttribute("flights", flights);
+        return "index";
+    }
 }
