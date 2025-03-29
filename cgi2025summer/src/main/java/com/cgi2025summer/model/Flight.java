@@ -68,10 +68,6 @@ public class Flight implements Comparable<Flight> {
         if (this.id.equals(arg0.id)) {
             return 0;
         }
-        int destComp = this.destination.compareTo(arg0.destination);
-        if (destComp != 0) {
-            return destComp;
-        }
 
         int calendarComp = this.departureDate.compareTo(arg0.departureDate);
         if (calendarComp != 0) {
@@ -80,6 +76,11 @@ public class Flight implements Comparable<Flight> {
             } else {
                 return -1;
             }
+        }
+
+        int destComp = this.destination.compareTo(arg0.destination);
+        if (destComp != 0) {
+            return destComp;
         }
 
         // long hourComp = this.departureHour - arg0.departureHour;
