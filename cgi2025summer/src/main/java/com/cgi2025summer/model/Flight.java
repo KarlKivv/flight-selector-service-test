@@ -6,26 +6,28 @@ import java.util.Calendar;
 import java.util.Random;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Flight implements Comparable<Flight> {
     private String id;
-    private String destination;
+    private FlightDestinationsEnum destination;
     private Calendar departureDate;
+
     private ArrayList<Seat> allSeats;
 
-    public Flight(Calendar departureDate) {
+    public Flight() {
+        Calendar departureDate = Calendar.getInstance();
         this.id = UUID.randomUUID().toString();
         Random random = new Random();
         this.destination = FlightDestinationsEnum.values()[Math
-                .toIntExact(random.nextLong(FlightDestinationsEnum.values().length))].toString();
+                .toIntExact(random.nextLong(FlightDestinationsEnum.values().length))];
         long departureHour = random.nextLong(24);
         long departureMinute = random.nextLong(60);
 
-        // SimpleDateFormat formatter = new SimpleDateFormat("dd MMM YYYY HH:mm",
-        // Locale.ENGLISH);
         int departureHourAsInt = Math.toIntExact(departureHour);
         int departureMinuteAsInt = Math.toIntExact(departureMinute);
 
-        // Calendar departureDate = Calendar.getdepartureDate();
         departureDate.set(Calendar.HOUR_OF_DAY, departureHourAsInt);
         departureDate.set(Calendar.MINUTE, departureMinuteAsInt);
         this.departureDate = departureDate;
@@ -38,25 +40,9 @@ public class Flight implements Comparable<Flight> {
         return this.id;
     }
 
-    public String getDestination() {
+    public FlightDestinationsEnum getDestination() {
         return this.destination;
     }
-
-    // tried to use Date and Calendar types, but they seem to be depracated since
-    // Java 8+ and I got tired of messing with Temporal-s
-    // public String getDepartureTimeString() {
-    // StringBuilder builder = new StringBuilder();
-    // if (this.departureHour < 10) {
-    // builder.append(0);
-    // }
-    // builder.append(this.departureHour);
-    // builder.append(":");
-    // if (this.departureMinute < 10) {
-    // builder.append(0);
-    // }
-    // builder.append(this.departureMinute);
-    // return builder.toString();
-    // }
 
     @Override
     public int compareTo(Flight arg0) {
@@ -78,29 +64,13 @@ public class Flight implements Comparable<Flight> {
             return destComp;
         }
 
-        // long hourComp = this.departureHour - arg0.departureHour;
-        // if (hourComp != 0) {
-        // if (hourComp > 0) {
-        // return 1;
-        // } else {
-        // return -1;
-        // }
-        // }
-        // long minuteComp = this.departureMinute - arg0.departureMinute;
-        // if (minuteComp != 0) {
-        // if (minuteComp > 0) {
-        // return 1;
-        // } else {
-        // return -1;
-        // }
-        // }
         return this.id.compareTo(arg0.id);
     }
 
     private void addSeats() {
         Random random = new Random();
-        for (int col = 0; col < SeatColumnEnum.values().length; col++) {
-            for (int row = 0; row < 24; row++) {
+        for (int row = 0; row < 24; row++) {
+            for (int col = 0; col < SeatColumnEnum.values().length; col++) {
                 Seat seat = new Seat(row, SeatColumnEnum.values()[col]);
                 if (random.nextLong(100) < 30) {
                     seat.reserveSeat();
@@ -119,7 +89,7 @@ public class Flight implements Comparable<Flight> {
         return format.format(this.departureDate.getTime());
     }
 
-    public String getDepartureDate() {
+    public String getDepartureDateString() {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         return format.format(this.departureDate.getTime());
     }
@@ -128,4 +98,15 @@ public class Flight implements Comparable<Flight> {
         this.departureDate = departureDate;
     }
 
+    public String getFlightCode() {
+        return String.format("%s-%s", this.destination.getCountryISOCode(), id.split("-")[0]);
+    }
+
+    public String getAirline() {
+        return String.format("Air %s", this.destination.getCountry());
+    }
+
+    public Calendar getDepartureDate() {
+        return departureDate;
+    }
 }
