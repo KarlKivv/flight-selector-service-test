@@ -6,7 +6,7 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0"
 		/>
-		<title>Index page</title>
+		<title>Flight info</title>
 		<link
 			rel="stylesheet"
 			th:href="@{/style.css}"
@@ -16,12 +16,65 @@
 		<div class="outer-container">
 			<h1>Flight info</h1>
 			<div class="search-container">
-				<input
-					type="text"
-					name="filter"
-					id="filter"
-				/>
-				<button type="submit">Submit</button>
+				<form
+					action="#"
+					th:action="@{/search}"
+					method="post"
+				>
+					<button type="submit">
+						<svg
+							viewBox="0 0 100 100"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke="black"
+								stroke-width="2"
+								d="M 90 90
+							l -10 -10
+							A 10 10 0 1 1 0 0"
+							/>
+						</svg>
+						Search
+					</button>
+					<input
+						type="text"
+						name="filter"
+						id="filter"
+						class="filter"
+						placeholder="Filter by destination..."
+					/>
+				</form>
+				<form
+					th:action="@{/}"
+					method="post"
+				>
+					<div>
+						<button
+							type="submit"
+							name="filter"
+							value="all"
+							class="button-13"
+						>
+							All flights
+						</button>
+						<button
+							type="submit"
+							name="filter"
+							value="today"
+							class="button-13"
+						>
+							Today
+						</button>
+						<button
+							type="submit"
+							name="filter"
+							value="tomorrow"
+							class="button-13"
+						>
+							Tomorrow
+						</button>
+					</div>
+				</form>
 			</div>
 			<hr />
 			<div class="flights-container">
@@ -30,21 +83,28 @@
 					class="cards-container"
 					th:each="card : ${flights}"
 				>
-					<div class="card">
-						<p
-							class="card-timestamp"
-							th:text="${card.getDepartureTimeString}"
-						>
-							00:00
-						</p>
-						<div class="card-info">
-							<h3 th:text="${card.end}">destination</h3>
-							<div class="flight-info">
-								<p th:text="${card.id}">flightId</p>
-								<p>company not specified</p>
+					<a
+						href="#"
+						th:href="@{/flight(id=${card.id})}"
+					>
+						<div class="card">
+							<p
+								class="card-timestamp"
+								th:text="${card.getDepartureTime()}"
+							>
+								00:00
+							</p>
+							<div class="card-info">
+								<h3 th:text="${card.destination.toString()}">
+									destination
+								</h3>
+								<div class="flight-info">
+									<p th:text="${card.id}">flightId</p>
+									<p>company not specified</p>
+								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 			</div>
 		</div>

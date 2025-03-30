@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Flight info</title>
+	</head>
+	<body>
+		<div>
+			<a
+				href="#"
+				th:href="@{/}"
+				class="back-button"
+				>Back to All Flights</a
+			>
+			<div class="card">
+				<p th:text="${flight.destination}">Destination</p>
+				<p th:text="${flight.id}">Flight Id</p>
+				<p th:text="${flight.getDepartureDate()}">departure date</p>
+				<p th:text="${flight.getDepartureTime()}">departure time</p>
+			</div>
+			<div
+				class="seatContainer"
+				th:each="seat: ${flight.getAllSeats()}"
+			>
+				<div
+					class="seat"
+					th:text="${seat.toString()}"
+				>
+					seatColumn - seatRow
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
