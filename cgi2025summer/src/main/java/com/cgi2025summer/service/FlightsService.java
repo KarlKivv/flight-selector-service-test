@@ -62,7 +62,7 @@ public class FlightsService {
     public ArrayList<Flight> getFlightsByDate(Calendar date) {
         ArrayList<Flight> flights = this.storage.getFlightsByDate(date);
         if (flights == null) {
-            flights = generator.generate();
+            flights = generator.generate(date);
             storage.add(date, flights);
         }
         return flights.stream()
