@@ -79,4 +79,4 @@ Potentially generate a unique uuid link after ticket purchase that can be used t
 
 ### Final thoughts
 
-This was my first real project using Spring Boot and Java as well. Since I had some past experiences designing web apps, I thought I could take my time with learning how Spring Boot works more generally. However, this turned out to be a mistake, since I just didn't have time to implement most of the features I wanted to within the original timeframe.
+This was my first real project using Spring Boot and Java as well. Since I had some past experiences designing web apps, I thought I could take my time with learning how Spring Boot works more generally. Unfortunately, due to my inexperience with Spring Boot, I ended up fixated on creating features that were not neccessary for this project, and I ended up not having enough time for implement most of the features I wanted within the original timeframe.

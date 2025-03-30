@@ -21,44 +21,6 @@ public class FlightsService {
     @Autowired
     private FlightDataGenerator generator;
 
-    // private Calendar today;
-    // private Calendar tomorrow;
-
-    // getFlightsByDate(Calendar date)
-    // show all flights for date
-    // if no data for date, generate and add to storage
-    // for index
-
-    // getFlightsByDestination(DestinationEnum destination)
-    // show all flights going to destination
-    // if no data return null
-    // for search
-
-    // public FlightsService(DataStorage storage, FlightDataGenerator generator) {
-    // this.storage = storage;
-    // this.generator = generator;
-
-    // this.today = Calendar.getInstance();
-    // this.tomorrow = Calendar.getInstance();
-    // this.tomorrow.add(Calendar.DAY_OF_MONTH, 1);
-
-    // initData();
-    // }
-
-    // private void initData() {
-    // ArrayList<Flight> flightsToday = generator.generate();
-    // ArrayList<Flight> flightsTomorrow = generator.generate();
-
-    // storage.add(this.today, flightsToday);
-    // storage.add(this.tomorrow, flightsTomorrow);
-    // }
-
-    // public ArrayList<Flight> getAllFlights(Calendar date) {
-    // return this.storage.getAllFlights().values().stream()
-    // .flatMap(f -> f.stream())
-    // .collect(Collectors.toCollection(ArrayList::new));
-    // }
-
     public ArrayList<Flight> getFlightsByDate(Calendar date) {
         ArrayList<Flight> flights = this.storage.getFlightsByDate(date);
         if (flights == null) {
@@ -78,7 +40,7 @@ public class FlightsService {
 
         return allFlights.values().stream()
                 .flatMap(f -> f.stream())
-                .filter(f -> f.getDestination() == destination.toString())
+                .filter(f -> f.getDestination().toString() == destination.toString())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -102,12 +64,19 @@ public class FlightsService {
         return null;
     }
 
-    public ArrayList<Flight> filterFlights(String filter) {
+    public ArrayList<Flight> filterFlights(String dateFilter, String destinationFilter) {
+        if (!destinationFilter.isBlank()) {
+            return this.filterByDestination(destinationFilter);
+        }
+        return this.filterByDate(dateFilter);
+    }
+
+    private ArrayList<Flight> filterByDate(String dateFilter) {
         Calendar today = Calendar.getInstance();
         Calendar tomorrow = Calendar.getInstance();
         tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-        switch (filter) {
+        switch (dateFilter) {
             case "today":
                 return this.getFlightsByDate(today);
             case "tomorrow":
@@ -119,42 +88,10 @@ public class FlightsService {
         }
     }
 
-    // public ArrayList<Flight> filterFlightsByDestination(HashMap<Calendar,
-    // ArrayList<Flight>> allFlights,
-    // FlightDestinationsEnum destination) {
-
-    // // if (allFlights == null) {
-    // // return null;
-    // // }
-
-    // return allFlights.values().stream()
-    // .flatMap(f -> f.stream())
-    // .filter(f -> f.getDestination() == destination.toString())
-    // .collect(Collectors.toCollection(ArrayList::new));
-    // }
-
-    // public ArrayList<Flight> getFilteredFlights(Calendar date,
-    // FlightDestinationsEnum destination) {
-    // if (date == null) {
-    // date = Calendar.getInstance();
-    // }
-
-    // if (destination == null) {
-    // return this.getFlightsByDate(date);
-    // } else {
-    // HashMap<Calendar, ArrayList<Flight>> allFlights =
-    // this.storage.getAllFlights();
-    // return filterFlightsByDestination(allFlights, destination);
-    // }
-    // }
-
-    // public ArrayList<Flight> getFilteredAndSortedByDateFlights(Calendar date,
-    // FlightDestinationsEnum destination) {
-    // ArrayList<Flight> flights = getFilteredFlights(date, destination);
-    // if (flights == null) {
-    // return null;
-    // }
-    // flights.stream().sorted();
-    // return flights;
-    // }
+    private ArrayList<Flight> filterByDestination(String destinationFilter) {
+        ArrayList<Flight> flights = this.filterByDate("");
+        return flights.stream()
+                .filter(f -> f.getDestination().toString().contains(destinationFilter))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
 }

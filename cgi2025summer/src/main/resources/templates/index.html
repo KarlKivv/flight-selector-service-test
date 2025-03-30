@@ -18,29 +18,39 @@
 			<div class="search-container">
 				<form
 					action="#"
-					th:action="@{/search}"
+					th:action="@{/}"
 					method="post"
 				>
 					<button type="submit">
-						<svg
+						<!-- <svg
 							viewBox="0 0 100 100"
 							xmlns="http://www.w3.org/2000/svg"
 						>
+							<circle
+								cx="50"
+								cy="50"
+								r="30"
+								stroke="black"
+								stroke-width="5"
+								fill="none"
+							/>
+
 							<path
 								stroke="black"
-								stroke-width="2"
-								d="M 90 90
-							l -10 -10
-							A 10 10 0 1 1 0 0"
+								stroke-width="5"
+								d="
+								M 90 90
+								l -20 -20
+							"
 							/>
-						</svg>
-						Search
+						</svg> -->
+						<p>Search</p>
 					</button>
 					<input
 						type="text"
-						name="filter"
-						id="filter"
-						class="filter"
+						name="destinationFilter"
+						id="destinationFilter"
+						class="destinationFilter"
 						placeholder="Filter by destination..."
 					/>
 				</form>
@@ -51,25 +61,22 @@
 					<div>
 						<button
 							type="submit"
-							name="filter"
+							name="dateFilter"
 							value="all"
-							class="button-13"
 						>
 							All flights
 						</button>
 						<button
 							type="submit"
-							name="filter"
+							name="dateFilter"
 							value="today"
-							class="button-13"
 						>
 							Today
 						</button>
 						<button
 							type="submit"
-							name="filter"
+							name="dateFilter"
 							value="tomorrow"
-							class="button-13"
 						>
 							Tomorrow
 						</button>
@@ -77,11 +84,13 @@
 				</form>
 			</div>
 			<hr />
-			<div class="flights-container">
-				<div class="flights-container-date">21/03/2025</div>
+			<div
+				class="flights-container"
+				th:with="currentDate=''"
+			>
 				<div
 					class="cards-container"
-					th:each="card : ${flights}"
+					th:each="card, status : ${flights}"
 				>
 					<a
 						href="#"
@@ -95,12 +104,18 @@
 								00:00
 							</p>
 							<div class="card-info">
-								<h3 th:text="${card.destination.toString()}">
+								<h3
+									th:text="${card.destination.getDestinationString()}"
+								>
 									destination
 								</h3>
 								<div class="flight-info">
-									<p th:text="${card.id}">flightId</p>
-									<p>company not specified</p>
+									<p th:text="${card.getFlightCode()}">
+										flight code
+									</p>
+									<p th:text="${card.getAirline()}">
+										company not specified
+									</p>
 								</div>
 							</div>
 						</div>

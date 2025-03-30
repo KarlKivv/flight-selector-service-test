@@ -6,7 +6,7 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0"
 		/>
-		<title>Flight not found</title>
+		<title>Cart</title>
 		<link
 			rel="stylesheet"
 			th:href="@{/style.css}"
@@ -14,16 +14,18 @@
 	</head>
 	<body>
 		<div>
-			<h1>Flight Not Found</h1>
-			<p>
-				Sorry, the flight with ID <strong th:text="${id}"></strong> does
-				not exist.
-			</p>
-			<a
-				th:href="@{/}"
-				class="back-button"
-				>Back to All Flights</a
-			>
+			<div class="ticket-info">
+				<p>FROM:</p>
+				<p>TO:</p>
+				<p>FLIGHT:</p>
+				<p>DATE:</p>
+				<p>SEAT:</p>
+				<p>DEPARTURE TIME:</p>
+			</div>
+			<div class="reciept">
+				<p>Seat cost</p>
+				<p>Total cost</p>
+			</div>
 		</div>
 	</body>
 </html>

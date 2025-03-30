@@ -1,11 +1,21 @@
 body {
-    background-color: grey;
     font-size: calc(16*1.125px);
 }
 
 p {
-    color: grey;
+    color: black;
 }
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+}
+
+input[type=text] {
+    flex-grow: 2;
+}
+
 
 .search-container{
     width: 100%;
@@ -13,9 +23,6 @@ p {
     flex-direction: row;
 }
 
-input[type=text] {
-    flex-grow: 2;
-}
 
 .outer-container {
     max-width: 80%;
@@ -26,51 +33,26 @@ input[type=text] {
 .card {
     display: flex;
     column-gap: 5px;
-    background-color: white;
     border-radius: 25px;
     margin: 5px;
     padding: 5px;
+    border: solid black 1px;
+}
+
+.card:hover {
+    background-color: rgb(224, 223, 223);
 }
 
 .card-timestamp, .card-info{
     align-self: baseline;
 }
 
-.flight-info {
-    display: flex;
-    flex-grow: 2;
+.seat-container {
+    width: 20%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
 }
 
-/* https://getcssscan.com/css-buttons-examples, button13 */
-.button-13 {
-  background-color: #fff;
-  border: 1px solid #d5d9d9;
-  border-radius: 8px;
-  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
-  box-sizing: border-box;
-  color: #0f1111;
-  cursor: pointer;
-  display: inline-block;
-  font-family: "Amazon Ember",sans-serif;
-  font-size: 13px;
-  line-height: 29px;
-  padding: 0 10px 0 11px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: middle;
-  width: 100px;
-}
-
-.button-13:hover {
-  background-color: #f7fafa;
-}
-
-.button-13:focus {
-  border-color: #008296;
-  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
-  outline: 0;
+.form-container {
+    display: grid;
 }

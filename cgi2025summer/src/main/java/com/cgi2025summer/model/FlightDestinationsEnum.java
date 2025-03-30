@@ -11,7 +11,7 @@ public enum FlightDestinationsEnum {
     BERLIN("Berlin", 115, "DE", "Germany"),
     LONDON("London", 180, "GB", "United Kingdom"),
     PARIS("Paris", 180, "FR", "France"),
-    AMSTERDAM("Amsterdam", 150, "NL", "Netherlands"),
+    AMSTERDAM("Amsterdam", 150, "NL", "The Netherlands"),
     ROME("Rome", 195, "IT", "Italy"),
     PRAGUE("Prague", 3 * 60 + 10, "CZ", "Czechia"),
     TIRANA("Tirana", 4 * 60 + 45, "AL", "Albania"),
@@ -62,8 +62,20 @@ public enum FlightDestinationsEnum {
         return this.flightDurationMinutes;
     }
 
+    public String getDestinationString() {
+        return String.format("%s (%s)", this.locationName, this.country);
+    }
+
+    public String getCountryISOCode() {
+        return this.countryISOCode;
+    }
+
     @Override
     public String toString() {
         return this.locationName;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }
