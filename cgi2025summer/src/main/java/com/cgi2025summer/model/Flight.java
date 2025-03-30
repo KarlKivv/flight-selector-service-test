@@ -1,22 +1,18 @@
 package com.cgi2025summer.model;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class Flight implements Comparable<Flight> {
     private String id;
     private String destination;
-
     private Calendar departureDate;
+    private ArrayList<Seat> allSeats;
 
-    // private long departureHour;
-    // private long departureMinute;
-
-    public Flight() {
+    public Flight(Calendar departureDate) {
         this.id = UUID.randomUUID().toString();
         Random random = new Random();
         this.destination = FlightDestinationsEnum.values()[Math
@@ -29,10 +25,13 @@ public class Flight implements Comparable<Flight> {
         int departureHourAsInt = Math.toIntExact(departureHour);
         int departureMinuteAsInt = Math.toIntExact(departureMinute);
 
-        Calendar instance = Calendar.getInstance();
-        instance.set(Calendar.HOUR_OF_DAY, departureHourAsInt);
-        instance.set(Calendar.MINUTE, departureMinuteAsInt);
-        this.departureDate = instance;
+        // Calendar departureDate = Calendar.getdepartureDate();
+        departureDate.set(Calendar.HOUR_OF_DAY, departureHourAsInt);
+        departureDate.set(Calendar.MINUTE, departureMinuteAsInt);
+        this.departureDate = departureDate;
+
+        this.allSeats = new ArrayList<>();
+        this.addSeats();
     }
 
     public String getId() {
@@ -58,10 +57,6 @@ public class Flight implements Comparable<Flight> {
     // builder.append(this.departureMinute);
     // return builder.toString();
     // }
-
-    public String getDepartureTimeString() {
-        return String.format("%1$tH:%1$tM", this.departureDate);
-    }
 
     @Override
     public int compareTo(Flight arg0) {
@@ -100,6 +95,37 @@ public class Flight implements Comparable<Flight> {
         // }
         // }
         return this.id.compareTo(arg0.id);
+    }
+
+    private void addSeats() {
+        Random random = new Random();
+        for (int col = 0; col < SeatColumnEnum.values().length; col++) {
+            for (int row = 0; row < 24; row++) {
+                Seat seat = new Seat(row, SeatColumnEnum.values()[col]);
+                if (random.nextLong(100) < 30) {
+                    seat.reserveSeat();
+                }
+                this.allSeats.add(seat);
+            }
+        }
+    }
+
+    public ArrayList<Seat> getAllSeats() {
+        return this.allSeats;
+    }
+
+    public String getDepartureTime() {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        return format.format(this.departureDate.getTime());
+    }
+
+    public String getDepartureDate() {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        return format.format(this.departureDate.getTime());
+    }
+
+    public void setDepartureDate(Calendar departureDate) {
+        this.departureDate = departureDate;
     }
 
 }
