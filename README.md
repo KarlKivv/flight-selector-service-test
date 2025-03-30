@@ -1,10 +1,51 @@
-# CGI-eesti-2025-test
+# Flight selector service test
 
 ## Description
 
-This is my solution for the CGI summer internship program. The goal of this project is to create a plane seat recommendation web app, based on the user's preferences. This is done through the use of filters (window seat, more legroom, closer to the isle etc). The back-end needs to be done in Java using the Spring Boot framework. There are no restrictions on the front-end side.
+This is my example project for the CGI summer internship program. The goal of this project was to create a flight seat recommendation web app. The requirements for the project were to use Java Spring Boot as the backend with no restrictions on the frontend.
+
+The original timeframe for this project was from March 14 2025 - March 30 2025.
+
+## How to run
+
+### Requirements
+
+This project requires Java version 21. It can be installed using the following command:
+
+`sudo apt update
+sudo apt install openjdk-21-jdk`
+
+You will also need to install Apache Maven, which can be installed using the following command:
+
+`sudo apt install maven`
+
+### Clone the repository
+
+You can clone the repository with the following command:
+
+`git clone https://github.com/KarlKivv/flight-selector-service-test.git`
+
+### Running the app
+
+After cloning the project, navigate to the project folder. From there, run the following command:
+
+`./mvnw spring-boot:run`
+
+Afterwards, navigate to "http://localhost:8080" in your web browser of choice.
+
+Note: you may need to grant the above Maven script executable rights. To do so, run the following command:
+
+`chmod +x mvnw`
+
+### Used dependencies
+
+Spring web
+Spring Boot devTools
+spring-boot-starter-actuator
 
 ## Thoughts
+
+In this section, I wrote my design thoughts that I had during the development of this project. Unfortunately due to time constraints, I was not able to realize all of the ideas that I had.
 
 ### Communication between front and back:
 
@@ -14,8 +55,7 @@ This is my solution for the CGI summer internship program. The goal of this proj
       supported by "thymeleaf" package, no need for a separate front-end. Relies heavily on client identification to show correct page states.
 
 Decided to use a java templating engine and use server-side-rendering in stead of creating a separate front-end since this method is simpler.
-
-According to a Spring-Boot patch note, JSP-s are outdated and should be avoided. Will use Thymeleaf templates in stead.
+According to a Spring-Boot patch note, JSP-s are outdated and should be avoided. Will use Thymeleaf templates instead.
 
 ### Flight creation and timeout
 
@@ -30,28 +70,13 @@ Alternatively, the app could update the flight list only when the user is access
 Give every seat a score based on the user's preferences, retrieve the seats with the largest score.
 Seat location in relation to the plane (window, isle, near to exit etc.) seems simple enough to implement, closeness to previously selected seats seems trickier.
 
-### General ideas
+After giving every seat a score, use a priority queue to give the user suggestions on seating arrangements.
+
+### General/unsorted ideas
 
 Store user selections in front-end state, then send all data to back-end upon purchase.
 Potentially generate a unique uuid link after ticket purchase that can be used to edit purchase before flight date.
 
-## Dependencies
+### Final thoughts
 
-Spring web
-Spring Boot devTools
-Docker compose support - disabled, for now
-spring-boot-starter-actuator
-
-## Steps
-
-Used VSCode-s "generate java project" to generate a blank java Spring Boot project template.
-
-## TODO
-
-[x] - View for all flights for destination.
-[] - View for a selected flight.
-[] - Logic to assign available planes to flights and track their return times (the same plane is available after Flight.duration \* 2 amount of time later). - might not be needed
-[] - Filtered view for flights based on departure point and destination.
-[x] - Logic to create flight data.
-[] - Logic to store created flight data.
-[] - Logic to randomly reserve some seats on a flight.
+This was my first real project using Spring Boot and Java as well. Since I had some past experiences designing web apps, I thought I could take my time with learning how Spring Boot works more generally. However, this turned out to be a mistake, since I just didn't have time to implement most of the features I wanted to within the original timeframe.
