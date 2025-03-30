@@ -1,7 +1,6 @@
 package com.cgi2025summer.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 public class Seat {
 
@@ -15,6 +14,7 @@ public class Seat {
     public Seat(int row, SeatColumnEnum column) {
         this.row = row;
         this.column = column;
+        this.available = true;
     }
 
     public int getRow() {
