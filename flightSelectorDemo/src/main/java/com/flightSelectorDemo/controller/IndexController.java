@@ -1,4 +1,4 @@
-package com.cgi2025summer.controller;
+package com.flightSelectorDemo.controller;
 
 import java.util.ArrayList;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import com.cgi2025summer.model.Flight;
-import com.cgi2025summer.service.FlightsService;
+import com.flightSelectorDemo.model.Flight;
+import com.flightSelectorDemo.service.FlightsService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com</groupId>
-	<artifactId>cgi2025summer</artifactId>
+	<artifactId>flightSelectorDemo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cgi2025summer</name>
+	<name>flightSelectorDemo</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

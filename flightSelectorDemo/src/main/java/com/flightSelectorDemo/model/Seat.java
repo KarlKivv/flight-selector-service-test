@@ -1,4 +1,4 @@
-package com.cgi2025summer.model;
+package com.flightSelectorDemo.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

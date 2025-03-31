@@ -1,4 +1,4 @@
-package com.cgi2025summer.model;
+package com.flightSelectorDemo.model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

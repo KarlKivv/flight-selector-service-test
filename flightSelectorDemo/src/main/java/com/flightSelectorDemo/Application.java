@@ -1,13 +1,13 @@
-package com.cgi2025summer;
+package com.flightSelectorDemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Cgi2025summerApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Cgi2025summerApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

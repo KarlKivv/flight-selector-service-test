@@ -1,10 +1,10 @@
-package com.cgi2025summer;
+package com.flightSelectorDemo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Cgi2025summerApplicationTests {
+class FlightSelectorDemoApplicationTests {
 
 	@Test
 	void contextLoads() {

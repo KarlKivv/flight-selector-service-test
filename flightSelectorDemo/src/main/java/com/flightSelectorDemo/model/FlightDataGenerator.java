@@ -1,4 +1,4 @@
-package com.cgi2025summer.model;
+package com.flightSelectorDemo.model;
 
 import java.util.ArrayList;
 import java.util.Calendar;

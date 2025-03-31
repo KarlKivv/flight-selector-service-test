@@ -1,4 +1,4 @@
-package com.cgi2025summer.service;
+package com.flightSelectorDemo.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cgi2025summer.model.DataStorage;
-import com.cgi2025summer.model.Flight;
-import com.cgi2025summer.model.FlightDataGenerator;
-import com.cgi2025summer.model.FlightDestinationsEnum;
+import com.flightSelectorDemo.model.DataStorage;
+import com.flightSelectorDemo.model.Flight;
+import com.flightSelectorDemo.model.FlightDataGenerator;
+import com.flightSelectorDemo.model.FlightDestinationsEnum;
 
 @Service
 public class FlightsService {
