@@ -8,6 +8,10 @@
 [x] - Logic to randomly reserve some seats on a flight.
 
 [x] - Fix flight dates not being set correctly
+[] - Add monetary cost to flights
+[] - Filter flights based on flight monetary cost
 [] - Add indicator on card when flight has already departed based on current time
 [] - Filters on seat selection
+
 [] - Create a Docker container
+[] - Add a repository to hold generated data
