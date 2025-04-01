@@ -84,13 +84,10 @@
 				</form>
 			</div>
 			<hr />
-			<div
-				class="flights-container"
-				th:with="currentDate=''"
-			>
+			<div class="flights-container">
 				<div
 					class="cards-container"
-					th:each="card, status : ${flights}"
+					th:each="card : ${flights}"
 				>
 					<a
 						href="#"
@@ -99,7 +96,7 @@
 						<div class="card">
 							<p
 								class="card-timestamp"
-								th:text="${card.getDepartureTime()}"
+								th:text="|${card.getDepartureTime()} ${card.getDepartureDateString()}|"
 							>
 								00:00
 							</p>
