@@ -64,22 +64,38 @@
 							name="dateFilter"
 							value="all"
 						>
-							All flights
+							Flights for today and tomorrow
 						</button>
-						<button
-							type="submit"
-							name="dateFilter"
-							value="today"
+						<br />
+						<form
+							class="datetime-selector"
+							th:action="@{/}"
+							method="post"
 						>
-							Today
-						</button>
-						<button
-							type="submit"
-							name="dateFilter"
-							value="tomorrow"
-						>
-							Tomorrow
-						</button>
+							<span>Choose a time for flight:</span>
+							<label>
+								Start from:
+								<input
+									type="datetime-local"
+									id="dateTimeFilterStart"
+									name="dateTimeFilterStart"
+									th:attr="min=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd''T''HH:mm')}"
+									th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd''T''HH:mm')}"
+								/>
+							</label>
+							<br />
+							<label>
+								End at:
+								<input
+									type="datetime-local"
+									id="dateTimeFilterEnd"
+									name="dateTimeFilterEnd"
+									th:attr="min=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd''T''HH:mm')}"
+									th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd''T''HH:mm')}"
+								/>
+							</label>
+							<button type="submit">Search for flights</button>
+						</form>
 					</div>
 				</form>
 			</div>
