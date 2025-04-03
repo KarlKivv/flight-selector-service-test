@@ -1,5 +1,7 @@
 package com.flightSelectorDemo.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -71,33 +73,29 @@ public class FlightsService {
                 !flightFilterDTO.destinationFilter().isBlank()) {
             return this.filterByDestination(flightFilterDTO.destinationFilter());
         }
-        return this.filterByDate(flightFilterDTO.dateFilter());
+        if (flightFilterDTO.dateTimeFilterStart() == null && flightFilterDTO.dateTimeFilterEnd() == null) {
+            return this.getFlightsForTodayAndTomorrow();
+        }
+        return this.getFlightsWithinRange(flightFilterDTO.dateTimeFilterStart(), flightFilterDTO.dateTimeFilterEnd());
     }
 
-    // public ArrayList<Flight> filterFlights(String dateTimeFilterStart, String
-    // dateTimeFilterEnd,
-    // String destinationFilter) {
-    // if (!destinationFilter.isBlank()) {
-    // return this.filterByDestination(destinationFilter);
-    // }
-    // return this.filterByDateInRange(dateTimeFilterStart, dateTimeFilterEnd);
-    // }
+    public ArrayList<Flight> getFlightsWithinRange(Calendar start, Calendar end) {
+        // in case someone disables the minimum date by editing the html
+        if (end.before(start)) {
+            throw new IllegalArgumentException("start time is before start time");
+        }
 
-    // public ArrayList<Flight> filterByDateInRange(String dateTimeFilterStart,
-    // String dateTimeFilterEnd) {
-    // Calendar start = Calendar.getInstance();
-    // Calendar tomorrow = Calendar.getInstance();
-    // tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+        ArrayList<Flight> flights = new ArrayList<>();
 
-    // switch (dateFilter) {
-    // case "today":
-    // return this.getFlightsByDate(today);
-    // case "tomorrow":
-    // return this.getFlightsByDate(tomorrow);
-    // default:
-    // return getFlightsForTodayAndTomorrow();
-    // }
-    // }
+        while (start.before(end)) {
+            flights.addAll(getFlightsByDate(start));
+            start.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        // while loop is off by one
+        flights.addAll(getFlightsByDate(end));
+        return flights;
+    }
 
     private ArrayList<Flight> getFlightsForTodayAndTomorrow() {
         Calendar today = Calendar.getInstance();
@@ -109,27 +107,9 @@ public class FlightsService {
         return flights;
     }
 
-    private ArrayList<Flight> filterByDate(String dateFilter) {
-        Calendar today = Calendar.getInstance();
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
-
-        if (dateFilter == null || dateFilter.isBlank()) {
-            return getFlightsForTodayAndTomorrow();
-        }
-
-        switch (dateFilter) {
-            case "today":
-                return this.getFlightsByDate(today);
-            case "tomorrow":
-                return this.getFlightsByDate(tomorrow);
-            default:
-                throw new IllegalArgumentException(String.format("unknown dateFilter value: %s", dateFilter));
-        }
-    }
-
     private ArrayList<Flight> filterByDestination(String destinationFilter) {
-        ArrayList<Flight> flights = this.filterByDate("");
+        // this value is temporary, should use getFlightsWithinRange
+        ArrayList<Flight> flights = this.getFlightsForTodayAndTomorrow();
         return flights.stream()
                 .filter(f -> f.getDestination()
                         .getDestinationString()
