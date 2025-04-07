@@ -20,7 +20,7 @@
 					action="#"
 					th:action="@{/}"
 					method="post"
-					th:object="${flightFilterDTO}"
+					th:object="${flightsDTO}"
 				>
 					<button type="submit">
 						<!-- <svg
@@ -59,54 +59,49 @@
 				<form
 					th:action="@{/}"
 					method="post"
-					th:object="${flightFilterDTO}"
+					th:object="${flightsDTO}"
 				>
-					<div>
-						<button
-							type="submit"
-							name="dateFilter"
-							value="all"
-						>
-							Flights for today and tomorrow
-						</button>
-						<br />
-						<form
-							class="datetime-selector"
-							th:action="@{/}"
-							method="post"
-						>
-							<span>Choose a time for flight:</span>
-							<label>
-								Start from:
-								<input
-									type="datetime-local"
-									id="dateTimeFilterStart"
-									name="dateTimeFilterStart"
-									th:attr="min=${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd''T''HH:mm')}"
-									th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd''T''HH:mm')}"
-								/>
-							</label>
-							<br />
-							<label>
-								End at:
-								<input
-									type="datetime-local"
-									id="dateTimeFilterEnd"
-									name="dateTimeFilterEnd"
-									th:attr="min=${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd''T''HH:mm')}"
-									th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd''T''HH:mm')}"
-								/>
-							</label>
-							<button type="submit">Search for flights</button>
-						</form>
-					</div>
+					<button type="submit">
+						Flights for today and tomorrow
+					</button>
+				</form>
+				<br />
+				<form
+					class="datetime-selector"
+					th:action="@{/}"
+					method="post"
+					th:object="${flightsDTO}"
+				>
+					<span>Choose a time for flight:</span>
+					<label>
+						Start from:
+						<input
+							type="datetime-local"
+							id="dateTimeFilterStart"
+							name="dateTimeFilterStart"
+							th:attr="min=${#calendars.format(flightsDTO.dateTimeFilterStart(), 'yyyy-MM-dd''T''HH:mm')}"
+							th:value="${#calendars.format(flightsDTO.dateTimeFilterStart(), 'yyyy-MM-dd''T''HH:mm')}"
+						/>
+					</label>
+					<br />
+					<label>
+						End at:
+						<input
+							type="datetime-local"
+							id="dateTimeFilterEnd"
+							name="dateTimeFilterEnd"
+							th:attr="min=${#calendars.format(flightsDTO.dateTimeFilterEnd(), 'yyyy-MM-dd''T''HH:mm')}"
+							th:value="${#calendars.format(flightsDTO.dateTimeFilterEnd(), 'yyyy-MM-dd''T''HH:mm')}"
+						/>
+					</label>
+					<button type="submit">Search for flights</button>
 				</form>
 			</div>
 			<hr />
 			<div class="flights-container">
 				<div
 					class="cards-container"
-					th:each="card : ${flights}"
+					th:each="card : ${flightsDTO.flights()}"
 				>
 					<a
 						href="#"

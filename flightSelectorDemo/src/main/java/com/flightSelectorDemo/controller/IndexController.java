@@ -1,13 +1,9 @@
 package com.flightSelectorDemo.controller;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import com.flightSelectorDemo.dto.FlightFilterDTO;
-import com.flightSelectorDemo.model.Flight;
+import com.flightSelectorDemo.dto.FlightsDTO;
 import com.flightSelectorDemo.service.FlightsService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,30 +21,17 @@ public class IndexController {
     }
 
     @GetMapping
-    public String index(@ModelAttribute FlightFilterDTO flightFilterDTO, Model model) {
-        ArrayList<Flight> flights = service.filterFlights(flightFilterDTO);
-        model.addAttribute("flights", flights);
+    public String index(@ModelAttribute FlightsDTO fromClient, Model model) {
+        FlightsDTO toClient = service.filterFlights(fromClient);
+        model.addAttribute("flightsDTO", toClient);
         return "index";
     }
 
     @PostMapping
-    public String filterFlights(@ModelAttribute FlightFilterDTO flightFilterDTO,
+    public String filterFlights(@ModelAttribute FlightsDTO fromClient,
             Model model) {
-        ArrayList<Flight> flights = service.filterFlights(flightFilterDTO);
-        model.addAttribute("flights", flights);
+        FlightsDTO toClient = service.filterFlights(fromClient);
+        model.addAttribute("flightsDTO", toClient);
         return "index";
     }
-
-    // @PostMapping
-    // public String filterFlights(
-    // @RequestParam(required = false, defaultValue = "") String destinationFilter,
-    // @RequestParam(required = false, defaultValue = "") String
-    // dateTimeFilterStart,
-    // @RequestParam(required = false, defaultValue = "") String dateTimeFilterEnd,
-    // Model model) {
-    // ArrayList<Flight> flights = service.filterFlights(dateFilter,
-    // destinationFilter);
-    // model.addAttribute("flights", flights);
-    // return "index";
-    // }
 }

@@ -1,17 +1,13 @@
 package com.flightSelectorDemo.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.flightSelectorDemo.dto.FlightFilterDTO;
+import com.flightSelectorDemo.dto.FlightsDTO;
 import com.flightSelectorDemo.model.DataStorage;
 import com.flightSelectorDemo.model.Flight;
 import com.flightSelectorDemo.model.FlightDataGenerator;
@@ -19,11 +15,13 @@ import com.flightSelectorDemo.model.FlightDestinationsEnum;
 
 @Service
 public class FlightsService {
-    @Autowired
     private DataStorage storage;
-
-    @Autowired
     private FlightDataGenerator generator;
+
+    public FlightsService(DataStorage storage, FlightDataGenerator generator) {
+        this.storage = storage;
+        this.generator = generator;
+    }
 
     public ArrayList<Flight> getFlightsByDate(Calendar date) {
         ArrayList<Flight> flights = this.storage.getFlightsByDate(date);
@@ -68,19 +66,32 @@ public class FlightsService {
         return null;
     }
 
-    public ArrayList<Flight> filterFlights(FlightFilterDTO flightFilterDTO) {
-        if (flightFilterDTO.destinationFilter() != null &&
-                !flightFilterDTO.destinationFilter().isBlank()) {
-            return this.filterByDestination(flightFilterDTO.destinationFilter());
+    public FlightsDTO filterFlights(FlightsDTO flightsDTO) {
+        ArrayList<Flight> flights = new ArrayList<>();
+        if (flightsDTO.destinationFilter() != null && !flightsDTO.destinationFilter().isBlank()) {
+            flights = this.filterByDestination(flightsDTO.destinationFilter());
+        } else if (flightsDTO.dateTimeFilterStart() == null && flightsDTO.dateTimeFilterEnd() == null) {
+            flights = this.getFlightsForTodayAndTomorrow();
+        } else {
+            flights = this.getFlightsWithinRange(flightsDTO.dateTimeFilterStart(), flightsDTO.dateTimeFilterEnd());
         }
-        if (flightFilterDTO.dateTimeFilterStart() == null && flightFilterDTO.dateTimeFilterEnd() == null) {
-            return this.getFlightsForTodayAndTomorrow();
-        }
-        return this.getFlightsWithinRange(flightFilterDTO.dateTimeFilterStart(), flightFilterDTO.dateTimeFilterEnd());
+
+        Calendar today = Calendar.getInstance();
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+
+        return new FlightsDTO(
+                flightsDTO.destinationFilter(),
+                flightsDTO.dateTimeFilterStart() == null ? today : flightsDTO.dateTimeFilterStart(),
+                flightsDTO.dateTimeFilterEnd() == null ? tomorrow : flightsDTO.dateTimeFilterEnd(),
+                flights);
     }
 
     public ArrayList<Flight> getFlightsWithinRange(Calendar start, Calendar end) {
-        // in case someone disables the minimum date by editing the html
+        // if (end == null) {
+        // end = start;
+        // }
+        // in case the client disables the minimum end date by editing the html
         if (end.before(start)) {
             throw new IllegalArgumentException("start time is before start time");
         }
