@@ -70,8 +70,7 @@ public enum FlightDestinationsEnum {
         return this.countryISOCode;
     }
 
-    @Override
-    public String toString() {
+    public String getLocationName() {
         return this.locationName;
     }
 
