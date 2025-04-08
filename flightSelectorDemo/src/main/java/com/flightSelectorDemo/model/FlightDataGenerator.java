@@ -14,7 +14,9 @@ public class FlightDataGenerator {
         }
 
         flightsData.stream().forEach(f -> {
-            f.setDepartureDate(date);
+            f.getDepartureDate().set(Calendar.YEAR, date.get(Calendar.YEAR));
+            f.getDepartureDate().set(Calendar.MONTH, date.get(Calendar.MONTH));
+            f.getDepartureDate().set(Calendar.DAY_OF_MONTH, date.get(Calendar.DAY_OF_MONTH));
         });
 
         return flightsData;
