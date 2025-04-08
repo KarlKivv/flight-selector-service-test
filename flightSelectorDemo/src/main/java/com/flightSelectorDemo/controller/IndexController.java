@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/")
@@ -21,16 +22,18 @@ public class IndexController {
     }
 
     @GetMapping
-    public String index(@ModelAttribute FlightsDTO fromClient, Model model) {
-        FlightsDTO toClient = service.filterFlights(fromClient);
+    public String index(@RequestParam(value = "default", required = false) String isDefault,
+            @ModelAttribute FlightsDTO fromClient, Model model) {
+        FlightsDTO toClient = service.filterFlights(fromClient, isDefault);
         model.addAttribute("flightsDTO", toClient);
         return "index";
     }
 
     @PostMapping
-    public String filterFlights(@ModelAttribute FlightsDTO fromClient,
+    public String filterFlights(@RequestParam(value = "default", required = false) String isDefault,
+            @ModelAttribute FlightsDTO fromClient,
             Model model) {
-        FlightsDTO toClient = service.filterFlights(fromClient);
+        FlightsDTO toClient = service.filterFlights(fromClient, isDefault);
         model.addAttribute("flightsDTO", toClient);
         return "index";
     }

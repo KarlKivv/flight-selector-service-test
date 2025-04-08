@@ -58,6 +58,17 @@ input[type=text] {
 }
 
 .datetime-selector>label {
-    display: block;
+    display: flex;
     width: 100%;
+}
+
+label>span {
+    flex-grow: 1;
+}
+
+label>input[type=datetime-local] 
+label>input[type=text]
+{
+    gap: 10px;
+    flex-grow: 2;
 }

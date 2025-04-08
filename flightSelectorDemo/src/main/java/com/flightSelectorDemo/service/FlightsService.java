@@ -11,7 +11,6 @@ import com.flightSelectorDemo.dto.FlightsDTO;
 import com.flightSelectorDemo.model.DataStorage;
 import com.flightSelectorDemo.model.Flight;
 import com.flightSelectorDemo.model.FlightDataGenerator;
-import com.flightSelectorDemo.model.FlightDestinationsEnum;
 
 @Service
 public class FlightsService {
@@ -34,17 +33,18 @@ public class FlightsService {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public ArrayList<Flight> getFlightsByDestination(FlightDestinationsEnum destination) {
-        HashMap<String, ArrayList<Flight>> allFlights = storage.getAllFlights();
-        if (allFlights == null) {
-            return null;
-        }
+    // public ArrayList<Flight> getFlightsByDestination(FlightDestinationsEnum
+    // destination) {
+    // HashMap<String, ArrayList<Flight>> allFlights = storage.getAllFlights();
+    // if (allFlights == null) {
+    // return null;
+    // }
 
-        return allFlights.values().stream()
-                .flatMap(f -> f.stream())
-                .filter(f -> f.getDestination().toString() == destination.toString())
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
+    // return allFlights.values().stream()
+    // .flatMap(f -> f.stream())
+    // .filter(f -> f.getDestination().toString() == destination.toString())
+    // .collect(Collectors.toCollection(ArrayList::new));
+    // }
 
     public ArrayList<Flight> getAllFlights() {
         HashMap<String, ArrayList<Flight>> allFlights = storage.getAllFlights();
@@ -66,22 +66,28 @@ public class FlightsService {
         return null;
     }
 
-    public FlightsDTO filterFlights(FlightsDTO flightsDTO) {
+    public FlightsDTO filterFlights(FlightsDTO flightsDTO, String isDefault) {
         ArrayList<Flight> flights = new ArrayList<>();
-        if (flightsDTO.destinationFilter() != null && !flightsDTO.destinationFilter().isBlank()) {
-            flights = this.filterByDestination(flightsDTO.destinationFilter());
-        } else if (flightsDTO.dateTimeFilterStart() == null && flightsDTO.dateTimeFilterEnd() == null) {
-            flights = this.getFlightsForTodayAndTomorrow();
-        } else {
-            flights = this.getFlightsWithinRange(flightsDTO.dateTimeFilterStart(), flightsDTO.dateTimeFilterEnd());
-        }
+        String destinationFilter = flightsDTO.destinationFilter();
 
         Calendar today = Calendar.getInstance();
         Calendar tomorrow = Calendar.getInstance();
         tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
+        if (isDefault != null || (flightsDTO.dateTimeFilterStart() == null && flightsDTO.dateTimeFilterEnd() == null)) {
+            flights = this.getFlightsByDate(today);
+            flights.addAll(this.getFlightsByDate(tomorrow));
+            destinationFilter = null;
+        } else {
+            flights = this.getFlightsWithinRange(flightsDTO.dateTimeFilterStart(), flightsDTO.dateTimeFilterEnd());
+        }
+
+        if (destinationFilter != null && !destinationFilter.isBlank()) {
+            flights = this.filterByDestination(flights, flightsDTO.destinationFilter());
+        }
+
         return new FlightsDTO(
-                flightsDTO.destinationFilter(),
+                destinationFilter,
                 flightsDTO.dateTimeFilterStart() == null ? today : flightsDTO.dateTimeFilterStart(),
                 flightsDTO.dateTimeFilterEnd() == null ? tomorrow : flightsDTO.dateTimeFilterEnd(),
                 flights);
@@ -108,19 +114,17 @@ public class FlightsService {
         return flights;
     }
 
-    private ArrayList<Flight> getFlightsForTodayAndTomorrow() {
-        Calendar today = Calendar.getInstance();
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+    // private ArrayList<Flight> getFlightsForTodayAndTomorrow() {
+    // Calendar today = Calendar.getInstance();
+    // Calendar tomorrow = Calendar.getInstance();
+    // tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-        ArrayList<Flight> flights = this.getFlightsByDate(today);
-        flights.addAll(this.getFlightsByDate(tomorrow));
-        return flights;
-    }
+    // ArrayList<Flight> flights = this.getFlightsByDate(today);
+    // flights.addAll(this.getFlightsByDate(tomorrow));
+    // return flights;
+    // }
 
-    private ArrayList<Flight> filterByDestination(String destinationFilter) {
-        // this value is temporary, should use getFlightsWithinRange
-        ArrayList<Flight> flights = this.getFlightsForTodayAndTomorrow();
+    private ArrayList<Flight> filterByDestination(ArrayList<Flight> flights, String destinationFilter) {
         return flights.stream()
                 .filter(f -> f.getDestination()
                         .getDestinationString()
