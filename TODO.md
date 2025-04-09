@@ -8,9 +8,9 @@
 [x] - Logic to randomly reserve some seats on a flight.
 
 [x] - Fix flight dates not being set correctly
-[] - Combine location and date search
+[x] - Combine location and date search
 [] - Add monetary cost to flights
-[] - Filter flights based on departure time
+[x] - Filter flights based on departure time
 [] - Filter flights based on flight monetary cost
 [] - Add indicator on card when flight has already departed based on current time
 [] - Filters on seat selection

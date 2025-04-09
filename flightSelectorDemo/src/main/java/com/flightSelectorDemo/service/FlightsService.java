@@ -29,6 +29,7 @@ public class FlightsService {
             storage.add(date, flights);
         }
         return flights.stream()
+                .filter(f -> f.getDepartureDate().after(date))
                 .sorted()
                 .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -69,27 +70,46 @@ public class FlightsService {
     public FlightsDTO filterFlights(FlightsDTO flightsDTO, String isDefault) {
         ArrayList<Flight> flights = new ArrayList<>();
         String destinationFilter = flightsDTO.destinationFilter();
+        Calendar start = flightsDTO.dateTimeFilterStart();
+        Calendar end = flightsDTO.dateTimeFilterEnd();
 
         Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+
         Calendar tomorrow = Calendar.getInstance();
         tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+        tomorrow.set(Calendar.HOUR_OF_DAY, 23);
+        tomorrow.set(Calendar.MINUTE, 59);
 
         if (isDefault != null || (flightsDTO.dateTimeFilterStart() == null && flightsDTO.dateTimeFilterEnd() == null)) {
-            flights = this.getFlightsByDate(today);
-            flights.addAll(this.getFlightsByDate(tomorrow));
+            start = today;
+            end = tomorrow;
             destinationFilter = null;
-        } else {
-            flights = this.getFlightsWithinRange(flightsDTO.dateTimeFilterStart(), flightsDTO.dateTimeFilterEnd());
         }
 
+        if (start == null) {
+            start = today;
+        }
+
+        if (end == null) {
+            end = tomorrow;
+        }
+
+        if (end.before(start)) {
+            end = start;
+        }
+
+        flights = this.getFlightsWithinRange(start, end);
+
         if (destinationFilter != null && !destinationFilter.isBlank()) {
-            flights = this.filterByDestination(flights, flightsDTO.destinationFilter());
+            flights = this.filterByDestination(flights, destinationFilter);
         }
 
         return new FlightsDTO(
                 destinationFilter,
-                flightsDTO.dateTimeFilterStart() == null ? today : flightsDTO.dateTimeFilterStart(),
-                flightsDTO.dateTimeFilterEnd() == null ? tomorrow : flightsDTO.dateTimeFilterEnd(),
+                start,
+                end,
                 flights);
     }
 
@@ -98,10 +118,10 @@ public class FlightsService {
         // end = start;
         // }
         // in case the client disables the minimum end date by editing the html
-        if (end.before(start)) {
-            throw new IllegalArgumentException("start time is before start time");
-        }
-
+        // if (end.before(start)) {
+        // throw new IllegalArgumentException("start time is before start time");
+        // }
+        start = (Calendar) start.clone();
         ArrayList<Flight> flights = new ArrayList<>();
 
         while (start.before(end)) {
