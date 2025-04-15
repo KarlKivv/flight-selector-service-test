@@ -9,10 +9,10 @@
 
 [x] - Fix flight dates not being set correctly
 [x] - Combine location and date search
-[] - Add monetary cost to flights
 [x] - Filter flights based on departure time
+[x] - Add indicator on card when flight has already departed based on current time
+[] - Add monetary cost to flights
 [] - Filter flights based on flight monetary cost
-[] - Add indicator on card when flight has already departed based on current time
 [] - Filters on seat selection
 
 [] - Create a Docker container

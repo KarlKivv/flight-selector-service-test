@@ -21,18 +21,18 @@ public class IndexController {
         this.service = service;
     }
 
-    @GetMapping
-    public String index(@RequestParam(value = "default", required = false) String isDefault,
-            @ModelAttribute FlightsDTO fromClient, Model model) {
-        FlightsDTO toClient = service.filterFlights(fromClient, isDefault);
-        model.addAttribute("flightsDTO", toClient);
-        return "index";
-    }
+    // @GetMapping
+    // public String index(@RequestParam(value = "default", required = false) String
+    // isDefault,
+    // @ModelAttribute FlightsDTO fromClient, Model model) {
+    // FlightsDTO toClient = service.filterFlights(fromClient, isDefault);
+    // model.addAttribute("flightsDTO", toClient);
+    // return "index";
+    // }
 
-    @PostMapping
+    @GetMapping
     public String filterFlights(@RequestParam(value = "default", required = false) String isDefault,
-            @ModelAttribute FlightsDTO fromClient,
-            Model model) {
+            @ModelAttribute FlightsDTO fromClient, Model model) {
         FlightsDTO toClient = service.filterFlights(fromClient, isDefault);
         model.addAttribute("flightsDTO", toClient);
         return "index";

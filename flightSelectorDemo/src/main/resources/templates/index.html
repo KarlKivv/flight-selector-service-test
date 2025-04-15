@@ -69,7 +69,7 @@
 				<form
 					class="datetime-selector"
 					th:action="@{/}"
-					method="post"
+					method="get"
 					th:object="${flightsDTO}"
 				>
 					<span>Choose a time for flight:</span>
@@ -123,6 +123,7 @@
 			<div class="flights-container">
 				<div
 					class="cards-container"
+					th:with="now=${#calendars.createNow()}"
 					th:each="card : ${flightsDTO.flights()}"
 				>
 					<a
@@ -130,26 +131,37 @@
 						th:href="@{/flight(id=${card.id})}"
 					>
 						<div class="card">
-							<p
-								class="card-timestamp"
-								th:text="|${card.getDepartureTime()} ${card.getDepartureDateString()}|"
-							>
-								00:00
-							</p>
-							<div class="card-info">
-								<h3
-									th:text="${card.destination.getDestinationString()}"
+							<div>
+								<p
+									class="card-timestamp"
+									th:text="|${card.getDepartureTime()} ${card.getDepartureDateString()}|"
 								>
-									destination
-								</h3>
-								<div class="flight-info">
-									<p th:text="${card.getFlightCode()}">
-										flight code
-									</p>
-									<p th:text="${card.getAirline()}">
-										company not specified
-									</p>
+									00:00
+								</p>
+							</div>
+							<div class="card-info">
+								<div>
+									<h3
+										th:text="${card.destination.getDestinationString()}"
+									>
+										destination
+									</h3>
+									<div class="flight-info">
+										<p th:text="${card.getFlightCode()}">
+											flight code
+										</p>
+										<p th:text="${card.getAirline()}">
+											company not specified
+										</p>
+									</div>
 								</div>
+							</div>
+							<div>
+								<p
+									th:if="${now.after(card.getDepartureDate())}"
+								>
+									This flight has already departed
+								</p>
 							</div>
 						</div>
 					</a>
